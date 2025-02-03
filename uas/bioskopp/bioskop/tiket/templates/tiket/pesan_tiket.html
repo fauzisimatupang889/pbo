@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pesan Tiket</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1 class="text-center">Pesan Tiket untuk {{ jadwal.film.title }}</h1>
+      <p class="text-center">
+        <strong>Tanggal:</strong> {{ jadwal.tanggal }} |
+        <strong>Waktu:</strong> {{ jadwal.waktu }}
+      </p>
+
+      <form method="post" action="{% url 'proses_pembayaran' jadwal.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="jumlah_tiket" class="form-label">Jumlah Tiket</label>
+          <input
+            type="number"
+            name="jumlah_tiket"
+            id="jumlah_tiket"
+            class="form-control"
+            min="1"
+            max="{{ jadwal.kapasitas }}"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="metode_pembayaran" class="form-label"
+            >Metode Pembayaran</label
+          >
+          <select name="metode_pembayaran" id="metode_pembayaran" class="form-control" required>
+            <option value="transfer">Transfer Bank</option>
+            <option value="ewallet">E-Wallet</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Lanjutkan ke Pembayaran</button>
+      </form>
+
+      <a href="{% url 'index' %}" class="btn btn-secondary mt-3">Kembali ke Beranda</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
